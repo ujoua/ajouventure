@@ -1,1 +1,2 @@
 # ajouventure
+Welcome to Ajouventure.
