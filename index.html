@@ -5,10 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouventure</title>
+    <style>
+        canvas {
+            display: block;
+            margin: 0 auto;
+            max-width: 100vh;
+            width: 100vw;
+            height: 100vh;
+            border: 1px solid black;
+            background: url("map.svg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+    </style>
 </head>
 
-<body>
-
+<body style="background-color: gray;">
+    <canvas id="canvas"></canvas>
 </body>
+
+<script>
+    const canvas = document.getElementById("canvas");
+    const context = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    context.fillStyle = "blue";
+
+    context.fillRect(200, 180, 8, 8);
+    context.fillRect(80, 40, 90, 120);
+    context.beginPath();
+    context.moveTo(80 + 90, 40 + 120);
+    context.lineTo(200, 180);
+    context.stroke();
+
+    context.fillRect(135, 240, 8, 8);
+    context.fillRect(20, 180, 90, 120);
+    context.beginPath();
+    context.moveTo(20 + 90, 180 + 120);
+    context.lineTo(135, 240);
+    context.stroke();
+</script>
 
 </html>
