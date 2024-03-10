@@ -21,6 +21,8 @@
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
+
+            transition: transform 1s;
         }
 
         .marker {
@@ -71,10 +73,14 @@
     paldal.style.top = `${originy + canvas.height / 100 * 10}px`;
     paldal.style.width = `${canvas.width / 100 * 12}px`;
     paldal.style.height = `${canvas.height / 100 * ratio * 16}px`;
+
     paldal.addEventListener("click", () => {
-        console.log("click");
-        alert("click");
-    })
+        canvas.width = document.getElementById("canvas").clientWidth;
+        canvas.height = document.getElementById("canvas").clientHeight;
+        paldal.style.visibility = "hidden";
+
+        document.getElementById("canvas").style.transform = `scale(8.7) translate(${canvas.width / 2 - canvas.width * 2 / 100 * 23 - canvas.width * 2 / 100 * 2}px, ${canvas.height / 2 - canvas.height * 2 / 100 * 12 - canvas.height * 2 / 100 * 2}px)`;
+    });
 
     addEventListener("resize", () => {
         canvas.width = document.getElementById("canvas").clientWidth;
@@ -103,10 +109,10 @@
         const originy = 0;
 
         const paldal = document.getElementById("paldal");
-        paldal.style.left = `${originx + canvas.width / 100 * 30}px`;
-        paldal.style.top = `${originy + canvas.height / 100 * 10}px`;
-        paldal.style.width = `${canvas.width / 100 * 12}px`;
-        paldal.style.height = `${canvas.height / 100 * ratio * 16}px`;
+        paldal.style.left = `${originx + canvas.width / 100 * 30} px`;
+        paldal.style.top = `${originy + canvas.height / 100 * 10} px`;
+        paldal.style.width = `${canvas.width / 100 * 12} px`;
+        paldal.style.height = `${canvas.height / 100 * ratio * 16} px`;
     })
 </script>
 
