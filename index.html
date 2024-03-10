@@ -79,7 +79,14 @@
         canvas.height = document.getElementById("canvas").clientHeight;
         paldal.style.visibility = "hidden";
 
-        document.getElementById("canvas").style.transform = `scale(8.7) translate(${canvas.width / 2 - canvas.width * 2 / 100 * 23 - canvas.width * 2 / 100 * 2}px, ${canvas.height / 2 - canvas.height * 2 / 100 * 12 - canvas.height * 2 / 100 * 2}px)`;
+        document.getElementById("canvas").style.transform = `scale(4) translate(${canvas.width / 2 - canvas.width * 2 / 100 * 23 - canvas.width * 2 / 100 * 2}px, ${canvas.height / 2 - canvas.height * 2 / 100 * 12 - canvas.height * 2 / 100 * 2}px)`;
+
+        const quest = document.createElement("div");
+        quest.style.visibility = "visible";
+        quest.style.width = "90px";
+        quest.style.height = "120px";
+        quest.style.backgroundImage = "url('card1.png')";
+        paldal.appendChild(quest);
     });
 
     addEventListener("resize", () => {
