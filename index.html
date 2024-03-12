@@ -8,119 +8,26 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
         }
 
-        canvas {
-            display: block;
-            margin: 0 auto;
-            width: 56.25vh;
-            height: 100vh;
+        #map-container {
             border: 1px solid black;
-            background: url("map.svg");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-
-            transition: transform 1s;
         }
 
-        .marker {
-            border: 1px solid red;
-            position: absolute;
+        img {
+            border: 1px solid blue;
         }
     </style>
 </head>
 
 <body style="background-color: gray;">
-    <canvas id="canvas"></canvas>
-    <div class="marker" id="paldal">
-
+    <div id="map-container">
+        <img id="map" src="map.svg" alt="map" />
     </div>
 </body>
 
 <script>
-    const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d");
-
-    canvas.width = document.getElementById("canvas").clientWidth;
-    canvas.height = document.getElementById("canvas").clientHeight;
-
-    var ratio = canvas.width / canvas.height;
-
-    context.scale(2, 2);
-    context.fillStyle = "blue";
-
-    context.fillRect(canvas.width / 100 * 15, canvas.height / 100 * 5, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-    context.fillRect(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.beginPath();
-    context.moveTo(canvas.width / 100 * 15 + canvas.width / 100 * 6, canvas.height / 100 * 5 + canvas.height / 100 * ratio * 8);
-    context.lineTo(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.stroke();
-
-    context.fillRect(canvas.width / 100 * 6, canvas.height / 100 * 10, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-    context.fillRect(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.beginPath();
-    context.moveTo(canvas.width / 100 * 6 + canvas.width / 100 * 6, canvas.height / 100 * 10 + canvas.height / 100 * ratio * 8);
-    context.lineTo(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.stroke();
-
-    const originx = window.innerWidth / 2 - canvas.width / 2;
-    const originy = 0;
-
-    const paldal = document.getElementById("paldal");
-    paldal.style.left = `${originx + canvas.width / 100 * 30}px`;
-    paldal.style.top = `${originy + canvas.height / 100 * 10}px`;
-    paldal.style.width = `${canvas.width / 100 * 12}px`;
-    paldal.style.height = `${canvas.height / 100 * ratio * 16}px`;
-
-    paldal.addEventListener("click", () => {
-        canvas.width = document.getElementById("canvas").clientWidth;
-        canvas.height = document.getElementById("canvas").clientHeight;
-        paldal.style.visibility = "hidden";
-
-        document.getElementById("canvas").style.transform = `scale(4) translate(${canvas.width / 2 - canvas.width * 2 / 100 * 23 - canvas.width * 2 / 100 * 2}px, ${canvas.height / 2 - canvas.height * 2 / 100 * 12 - canvas.height * 2 / 100 * 2}px)`;
-
-        const quest = document.createElement("div");
-        quest.style.visibility = "visible";
-        quest.style.width = "90px";
-        quest.style.height = "120px";
-        quest.style.backgroundImage = "url('card1.png')";
-        paldal.appendChild(quest);
-    });
-
-    addEventListener("resize", () => {
-        canvas.width = document.getElementById("canvas").clientWidth;
-        canvas.height = document.getElementById("canvas").clientHeight;
-
-        ratio = canvas.width / canvas.height;
-
-        context.scale(2, 2);
-        context.fillStyle = "blue";
-
-        context.fillRect(canvas.width / 100 * 15, canvas.height / 100 * 5, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-        context.fillRect(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.beginPath();
-        context.moveTo(canvas.width / 100 * 15 + canvas.width / 100 * 5, canvas.height / 100 * 5 + canvas.height / 100 * ratio * 8);
-        context.lineTo(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.stroke();
-
-        context.fillRect(canvas.width / 100 * 6, canvas.height / 100 * 10, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-        context.fillRect(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.beginPath();
-        context.moveTo(canvas.width / 100 * 6 + canvas.width / 100 * 6, canvas.height / 100 * 10 + canvas.height / 100 * ratio * 8);
-        context.lineTo(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.stroke();
-
-        const originx = window.innerWidth / 2 - canvas.width / 2;
-        const originy = 0;
-
-        const paldal = document.getElementById("paldal");
-        paldal.style.left = `${originx + canvas.width / 100 * 30} px`;
-        paldal.style.top = `${originy + canvas.height / 100 * 10} px`;
-        paldal.style.width = `${canvas.width / 100 * 12} px`;
-        paldal.style.height = `${canvas.height / 100 * ratio * 16} px`;
-    })
+    const map = document.getElementById("map");
 </script>
 
 </html>
