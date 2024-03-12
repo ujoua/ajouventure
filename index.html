@@ -22,23 +22,46 @@
 </head>
 
 <body style="background-color: gray;">
-    <!-- <div id="map-container">
-        <img id="map" src="map.svg" alt="map" />
-        <svg width="20" height="20">
-            <rect width="20" height="20" fill="black" />
-        </svg>
-    </div> -->
+    <button id="find-me">Show my location</button><br />
 
-    <svg id="svg" width="100vw" height="100vh" viewBox="0 0 200 300">
+    <svg id="svg" width="160vw" height="160vh" viewBox="0 0 200 300">
         <image xlink:href="map.svg" height="300" />
         <rect id="paldal" x="64" y="14" width="20" height="30" fill="black" scale="50" />
         <line x1="84" y1="44" x2="94" y2="64" stroke="black" />
         <rect x="94" y="64" width="4" height="4" fill="black" scale="50" />
+
+        <circle id="me" cx="85" cy="160" r="4" fill="white" />
     </svg>
 </body>
 
 <script>
     const map = document.getElementById("map");
+
+    function geoFindMe() {
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            console.log(latitude, longitude);
+
+            const me = document.getElementById("me");
+            me.setAttribute("cy", 160 + (37.281260 - latitude) / ((37.284874 - 37.281260) / 90));
+            me.setAttribute("cx", 85 + (longitude - 127.043600) / ((127.046936 - 127.043600) / 70));
+        }
+
+        function error() {
+            alert("Unable to retrieve your location");
+        }
+
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser");
+        } else {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+    }
+
+    document.querySelector("#find-me").addEventListener("click", geoFindMe);
+
 </script>
 
 </html>
