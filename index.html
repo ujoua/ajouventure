@@ -15,8 +15,11 @@
         }
 
         svg {
-
             border: 1px solid blue;
+        }
+
+        .marker {
+            visibility: hidden;
         }
     </style>
 </head>
@@ -26,9 +29,13 @@
 
     <svg id="svg" width="160vw" height="160vh" viewBox="0 0 200 300">
         <image xlink:href="map.svg" height="300" />
-        <rect id="paldal" x="64" y="14" width="20" height="30" fill="black" scale="50" />
+        <rect class="marker" id="paldal" x="64" y="14" width="20" height="30" fill="black" scale="50" />
         <line x1="84" y1="44" x2="94" y2="64" stroke="black" />
         <rect x="94" y="64" width="4" height="4" fill="black" scale="50" />
+
+        <rect class="marker" id="playground" x="70" y="165" width="20" height="30" fill="black" scale="50" />
+        <line x1="90" y1="195" x2="100" y2="215" stroke="black" />
+        <rect x="100" y="215" width="4" height="4" fill="black" scale="50" />
 
         <circle id="me" cx="85" cy="160" r="4" fill="white" />
     </svg>
@@ -36,6 +43,8 @@
 
 <script>
     const map = document.getElementById("map");
+
+    const markers = document.getElementsByClassName("marker");
 
     function geoFindMe() {
         function success(position) {
@@ -47,6 +56,15 @@
             const me = document.getElementById("me");
             me.setAttribute("cy", 160 + (37.281260 - latitude) / ((37.284874 - 37.281260) / 90));
             me.setAttribute("cx", 85 + (longitude - 127.043600) / ((127.046936 - 127.043600) / 70));
+
+            for (var i = 0; i < markers.length; ++i) {
+                var marker = markers[i];
+                var distance = Math.sqrt((marker.getAttribute("x") - me.getAttribute("cx")) * (marker.getAttribute("x") - me.getAttribute("cx")) + (marker.getAttribute("y") - me.getAttribute("cy")) * (marker.getAttribute("y") - me.getAttribute("cy")));
+                console.log(distance);
+                if (distance < 100) {
+                    marker.style.visibility = "visible";
+                }
+            }
         }
 
         function error() {
