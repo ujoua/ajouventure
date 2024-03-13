@@ -53,10 +53,16 @@
             alert("Unable to retrieve your location");
         }
 
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+        };
+
         if (!navigator.geolocation) {
             alert("Geolocation is not supported by your browser");
         } else {
-            navigator.geolocation.getCurrentPosition(success, error);
+            const watchID = navigator.geolocation.watchPosition(success, error, options);
         }
     }
 
