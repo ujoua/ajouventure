@@ -8,119 +8,60 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
         }
 
-        canvas {
-            display: block;
-            margin: 0 auto;
-            width: 56.25vh;
-            height: 100vh;
+        #map-container {
             border: 1px solid black;
-            background: url("map.svg");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: contain;
-
-            transition: transform 1s;
         }
 
-        .marker {
-            border: 1px solid red;
-            position: absolute;
+        svg {
+
+            border: 1px solid blue;
         }
     </style>
 </head>
 
 <body style="background-color: gray;">
-    <canvas id="canvas"></canvas>
-    <div class="marker" id="paldal">
+    <button id="find-me">Show my location</button><br />
 
-    </div>
+    <svg id="svg" width="160vw" height="160vh" viewBox="0 0 200 300">
+        <image xlink:href="map.svg" height="300" />
+        <rect id="paldal" x="64" y="14" width="20" height="30" fill="black" scale="50" />
+        <line x1="84" y1="44" x2="94" y2="64" stroke="black" />
+        <rect x="94" y="64" width="4" height="4" fill="black" scale="50" />
+
+        <circle id="me" cx="85" cy="160" r="4" fill="white" />
+    </svg>
 </body>
 
 <script>
-    const canvas = document.getElementById("canvas");
-    const context = canvas.getContext("2d");
+    const map = document.getElementById("map");
 
-    canvas.width = document.getElementById("canvas").clientWidth;
-    canvas.height = document.getElementById("canvas").clientHeight;
+    function geoFindMe() {
+        function success(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
 
-    var ratio = canvas.width / canvas.height;
+            console.log(latitude, longitude);
 
-    context.scale(2, 2);
-    context.fillStyle = "blue";
+            const me = document.getElementById("me");
+            me.setAttribute("cy", 160 + (37.281260 - latitude) / ((37.284874 - 37.281260) / 90));
+            me.setAttribute("cx", 85 + (longitude - 127.043600) / ((127.046936 - 127.043600) / 70));
+        }
 
-    context.fillRect(canvas.width / 100 * 15, canvas.height / 100 * 5, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-    context.fillRect(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.beginPath();
-    context.moveTo(canvas.width / 100 * 15 + canvas.width / 100 * 6, canvas.height / 100 * 5 + canvas.height / 100 * ratio * 8);
-    context.lineTo(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.stroke();
+        function error() {
+            alert("Unable to retrieve your location");
+        }
 
-    context.fillRect(canvas.width / 100 * 6, canvas.height / 100 * 10, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-    context.fillRect(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.beginPath();
-    context.moveTo(canvas.width / 100 * 6 + canvas.width / 100 * 6, canvas.height / 100 * 10 + canvas.height / 100 * ratio * 8);
-    context.lineTo(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-    context.stroke();
+        if (!navigator.geolocation) {
+            alert("Geolocation is not supported by your browser");
+        } else {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+    }
 
-    const originx = window.innerWidth / 2 - canvas.width / 2;
-    const originy = 0;
+    document.querySelector("#find-me").addEventListener("click", geoFindMe);
 
-    const paldal = document.getElementById("paldal");
-    paldal.style.left = `${originx + canvas.width / 100 * 30}px`;
-    paldal.style.top = `${originy + canvas.height / 100 * 10}px`;
-    paldal.style.width = `${canvas.width / 100 * 12}px`;
-    paldal.style.height = `${canvas.height / 100 * ratio * 16}px`;
-
-    paldal.addEventListener("click", () => {
-        canvas.width = document.getElementById("canvas").clientWidth;
-        canvas.height = document.getElementById("canvas").clientHeight;
-        paldal.style.visibility = "hidden";
-
-        document.getElementById("canvas").style.transform = `scale(4) translate(${canvas.width / 2 - canvas.width * 2 / 100 * 23 - canvas.width * 2 / 100 * 2}px, ${canvas.height / 2 - canvas.height * 2 / 100 * 12 - canvas.height * 2 / 100 * 2}px)`;
-
-        const quest = document.createElement("div");
-        quest.style.visibility = "visible";
-        quest.style.width = "90px";
-        quest.style.height = "120px";
-        quest.style.backgroundImage = "url('card1.png')";
-        paldal.appendChild(quest);
-    });
-
-    addEventListener("resize", () => {
-        canvas.width = document.getElementById("canvas").clientWidth;
-        canvas.height = document.getElementById("canvas").clientHeight;
-
-        ratio = canvas.width / canvas.height;
-
-        context.scale(2, 2);
-        context.fillStyle = "blue";
-
-        context.fillRect(canvas.width / 100 * 15, canvas.height / 100 * 5, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-        context.fillRect(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.beginPath();
-        context.moveTo(canvas.width / 100 * 15 + canvas.width / 100 * 5, canvas.height / 100 * 5 + canvas.height / 100 * ratio * 8);
-        context.lineTo(canvas.width / 100 * 23, canvas.height / 100 * 12, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.stroke();
-
-        context.fillRect(canvas.width / 100 * 6, canvas.height / 100 * 10, canvas.width / 100 * 6, canvas.height / 100 * ratio * 8);
-        context.fillRect(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.beginPath();
-        context.moveTo(canvas.width / 100 * 6 + canvas.width / 100 * 6, canvas.height / 100 * 10 + canvas.height / 100 * ratio * 8);
-        context.lineTo(canvas.width / 100 * 18, canvas.height / 100 * 16, canvas.width / 100 * 1, canvas.height / 100 * ratio * 1);
-        context.stroke();
-
-        const originx = window.innerWidth / 2 - canvas.width / 2;
-        const originy = 0;
-
-        const paldal = document.getElementById("paldal");
-        paldal.style.left = `${originx + canvas.width / 100 * 30} px`;
-        paldal.style.top = `${originy + canvas.height / 100 * 10} px`;
-        paldal.style.width = `${canvas.width / 100 * 12} px`;
-        paldal.style.height = `${canvas.height / 100 * ratio * 16} px`;
-    })
 </script>
 
 </html>
