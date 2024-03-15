@@ -20,6 +20,12 @@
 
         .marker {
             visibility: hidden;
+            z-index: 1;
+        }
+
+        .marker-check {
+            visibility: hidden;
+            z-index: 2;
         }
 
         /* 모달 스타일 */
@@ -72,6 +78,7 @@
         <line x1="84" y1="44" x2="94" y2="64" stroke="black" />
         <rect x="94" y="64" width="4" height="4" fill="black" scale="50" />
 
+        <image class="marker-check" x="70" y="155" xlink:href="check.svg" />
         <rect class="marker" id="playground" x="70" y="165" width="20" height="30" fill="black" scale="50" />
         <line x1="90" y1="195" x2="100" y2="215" stroke="black" />
         <rect x="100" y="215" width="4" height="4" fill="black" scale="50" />
@@ -106,6 +113,8 @@
             document.getElementsByClassName('modal-content')[0].style.left = (viewportWidth - modalWidth) / 2 + 'px';
 
             document.getElementById('modal').style.display = 'block';
+
+            marker.previousElementSibling.style.visibility = "visible";
         });
     }
     document.getElementsByClassName('close')[0].addEventListener('click', function () {
@@ -144,7 +153,7 @@
 
         var options = {
             enableHighAccuracy: true,
-            timeout: 5000,
+            timeout: 3000,
             maximumAge: 0,
         };
 
