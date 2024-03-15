@@ -5,68 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajouventure</title>
-    <style>
-        body {
-            margin: 0;
-        }
-
-        #map-container {
-            border: 1px solid black;
-        }
-
-        svg {
-            border: 1px solid blue;
-        }
-
-        .marker {
-            visibility: hidden;
-            z-index: 1;
-        }
-
-        .marker-check {
-            visibility: hidden;
-            z-index: 2;
-        }
-
-        /* 모달 스타일 */
-        .modal {
-            display: none;
-            /* 기본적으로 모달은 숨겨진 상태 */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            /* 배경을 반투명하게 만듦 */
-            overflow: auto;
-        }
-
-        /* 모달 콘텐츠 스타일 */
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        /* 모달 닫기 버튼 스타일 */
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body style="background-color: gray;">
@@ -74,6 +13,8 @@
 
     <svg id="svg" width="160vw" height="160vh" viewBox="0 0 200 300">
         <image xlink:href="map.svg" height="300" />
+
+        <image class="marker-check" x="70" y="155" xlink:href="check.svg" />
         <rect class="marker" id="paldal" x="64" y="14" width="20" height="30" fill="black" scale="50" />
         <line x1="84" y1="44" x2="94" y2="64" stroke="black" />
         <rect x="94" y="64" width="4" height="4" fill="black" scale="50" />
@@ -86,91 +27,15 @@
         <circle id="me" cx="85" cy="160" r="4" fill="white" />
     </svg>
 
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>This is a modal window</p>
+    <div id="modal-container">
+        <div id="modal">
+            <span id="modal-close">&times;</span>
+            <h2>This is a modal title window</h2>
+            <p>This is a modal content window</p>
         </div>
     </div>
+
+    <script src="source.js" defer></script>
 </body>
-
-<script>
-    const map = document.getElementById("map");
-
-    const markers = document.getElementsByClassName("marker");
-
-    for (var i = 0; i < markers.length; ++i) {
-        var marker = markers[i];
-
-        marker.addEventListener("click", () => {
-            var viewportHeight = window.innerHeight;
-            var viewportWidth = window.innerWidth;
-
-            var modalHeight = document.getElementsByClassName('modal-content')[0].offsetHeight;
-            var modalWidth = document.getElementsByClassName('modal-content')[0].offsetWidth;
-
-            document.getElementsByClassName('modal-content')[0].style.top = (viewportHeight - modalHeight) / 2 + 'px';
-            document.getElementsByClassName('modal-content')[0].style.left = (viewportWidth - modalWidth) / 2 + 'px';
-
-            document.getElementById('modal').style.display = 'block';
-
-            marker.previousElementSibling.style.visibility = "visible";
-
-            localStorage.setItem(marker.id, "true");
-        });
-    }
-    document.getElementsByClassName('close')[0].addEventListener('click', function () {
-        document.getElementById('modal').style.display = 'none';
-    });
-    window.addEventListener('click', function (event) {
-        if (event.target == document.getElementById('modal')) {
-            document.getElementById('modal').style.display = 'none';
-        }
-    });
-
-    function geoFindMe() {
-        function success(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-
-            console.log(latitude, longitude);
-
-            const me = document.getElementById("me");
-            me.setAttribute("cy", 160 + (37.281260 - latitude) / ((37.284874 - 37.281260) / 90));
-            me.setAttribute("cx", 85 + (longitude - 127.043600) / ((127.046936 - 127.043600) / 70));
-
-            for (var i = 0; i < markers.length; ++i) {
-                var marker = markers[i];
-                var distance = Math.sqrt((marker.getAttribute("x") - me.getAttribute("cx")) * (marker.getAttribute("x") - me.getAttribute("cx")) + (marker.getAttribute("y") - me.getAttribute("cy")) * (marker.getAttribute("y") - me.getAttribute("cy")));
-
-                if (distance < 100) {
-                    marker.style.visibility = "visible";
-                    if (localStorage.getItem(marker.id) == "true") {
-                        marker.previousElementSibling.style.visibility = "visible";
-                    }
-                }
-            }
-        }
-
-        function error() {
-            alert("Unable to retrieve your location");
-        }
-
-        var options = {
-            enableHighAccuracy: true,
-            timeout: 3000,
-            maximumAge: 0,
-        };
-
-        if (!navigator.geolocation) {
-            alert("Geolocation is not supported by your browser");
-        } else {
-            const watchID = navigator.geolocation.watchPosition(success, error, options);
-        }
-    }
-
-    document.querySelector("#find-me").addEventListener("click", geoFindMe);
-
-</script>
 
 </html>
