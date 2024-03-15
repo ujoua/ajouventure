@@ -115,6 +115,8 @@
             document.getElementById('modal').style.display = 'block';
 
             marker.previousElementSibling.style.visibility = "visible";
+
+            localStorage.setItem(marker.id, "true");
         });
     }
     document.getElementsByClassName('close')[0].addEventListener('click', function () {
@@ -143,6 +145,9 @@
 
                 if (distance < 100) {
                     marker.style.visibility = "visible";
+                    if (localStorage.getItem(marker.id) == "true") {
+                        marker.previousElementSibling.style.visibility = "visible";
+                    }
                 }
             }
         }
