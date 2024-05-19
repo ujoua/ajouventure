@@ -27,3 +27,16 @@ function geoFindMe() {
 }
 
 document.querySelector("#find-me").addEventListener("click", geoFindMe);
+
+let db;
+const dbRequest = indexedDB.open("MyTestDatabase");
+dbRequest.addEventListener("success", (event) => {
+    db = event.target.result;
+    const transaction = db.transaction(["landmark"], "readwrite");
+    const landmarks = transaction.objectStore("landmark");
+    landmarks.add({ latitude: 37.0001, longitude: 127.0001, name: "어딘가" });
+});
+dbRequest.addEventListener("upgradeneeded", (event) => {
+    db = event.target.result;
+    db.createObjectStore("landmark", { keyPath: "id", autoIncrement: true });
+});
