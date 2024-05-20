@@ -1,32 +1,30 @@
 function geoFindMe() {
-    const status = document.querySelector("#status");
-    const mapLink = document.querySelector("#map-link");
-
-    mapLink.href = "";
-    mapLink.textContent = "";
-
     function success(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        status.textContent = "";
-        mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
-        mapLink.textContent = `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+        console.log(latitude, longitude);
     }
 
     function error() {
-        status.textContent = "Unable to retrieve your location";
+        console.log("Unable to retrieve your location");
     }
 
+    const options = {
+        enableHighAccuracy: true,
+        maximumAge: 30000,
+        timeout: 27000,
+    };
+
     if (!navigator.geolocation) {
-        status.textContent = "Geolocation is not supported by your browser";
+        console.log("Geolocation is not supported by your browser");
     } else {
-        status.textContent = "Locating…";
-        navigator.geolocation.getCurrentPosition(success, error);
+        console.log("Locating…");
+        navigator.geolocation.watchPosition(success, error, options);
     }
 }
 
-document.querySelector("#find-me").addEventListener("click", geoFindMe);
+window.onload = geoFindMe;
 
 let db;
 const dbRequest = indexedDB.open("MyTestDatabase");
