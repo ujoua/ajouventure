@@ -1,8 +1,12 @@
-body {
-    padding: 20px;
-    background-color: #ffffc9;
+main {
+    display: grid;
+    gap: 8px;
 }
 
-button {
-    margin: 0.5rem 0;
+.window {
+    border: 1px solid black;
+}
+
+.content {
+    display: flex;
 }
